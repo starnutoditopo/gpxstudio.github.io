@@ -958,6 +958,21 @@ ul {
     height: fit-content !important;
 }
 
+
+.bearing-marker {
+    font-size: 10px;
+    color: #000;
+    background: #fff;
+    border-radius: 40%;
+    border: 1px #000 solid;
+    text-align: center;
+    padding: 0px 2px;
+    z-index: 1000 !important;
+    margin-top: -7px !important;
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
 .wpt-cmt img {
     width: 100%;
 }

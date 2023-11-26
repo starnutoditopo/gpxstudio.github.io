@@ -15,6 +15,7 @@ export default class Buttons {
         this.disable_trace = false;
         this.show_direction = false;
         this.show_distance = false;
+        this.show_bearing = false;
         this.custom_layers = localStorage.hasOwnProperty('custom-layers') ? JSON.parse(localStorage.getItem('custom-layers')) : [];
         this.custom_layers_object = [];
 
@@ -32,6 +33,7 @@ export default class Buttons {
             if (urlParams.has('running')) this.speed_units = false;
             if (urlParams.has('direction')) this.show_direction = true;
             if (urlParams.has('distance')) this.show_distance = true;
+            if (urlParams.has('bearing')) this.show_bearing = true;
         }
 
         // MAIN MAP

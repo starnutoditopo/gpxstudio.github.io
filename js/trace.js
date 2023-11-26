@@ -526,11 +526,14 @@ export default class Trace {
     }
 
     showBearingMarkers() {
-        alert("Show bearing markers!")
+        //alert("Show bearing markers!")
+        if (this.buttons.show_bearing) {
+            this.gpx.addBearingMarkers();
+        }
     }
 
     hideBearingMarkers() {
-        alert("Hide bearing markers!")
+        this.gpx.removeBearingMarkers();
     }
 
     getBounds() {
