@@ -129,6 +129,8 @@ export default class Buttons {
         this.show_chevrons = document.getElementById("show-chevrons");
         this.dist_markers = document.getElementById("dist-markers");
         this.show_dist_markers = document.getElementById("show-dist-markers");
+        this.bearing_markers = document.getElementById("bearing-markers");
+        this.show_bearing_markers = document.getElementById("show-bearing-markers");
         this.merge = document.getElementById("merge");
         this.include_time = document.getElementById("include-time");
         this.include_hr = document.getElementById("include-hr");
@@ -320,6 +322,7 @@ export default class Buttons {
             this.elevation_input.style.display = 'none';
             this.chevrons.style.display = 'none';
             this.dist_markers.style.display = 'none';
+            this.bearing_markers.style.display = 'none';
             this.crop_container.style.display = 'none';
             this.slide_container.style.display = 'none';
             this.elevation_profile.style.gridRow = '1 / span 4';
@@ -730,6 +733,7 @@ export default class Buttons {
 
                     settings_list.appendChild(_this.chevrons);
                     settings_list.appendChild(_this.dist_markers);
+                    settings_list.appendChild(_this.bearing_markers);
 
                     settings_container.appendChild(settings_list);
                 }
@@ -2102,6 +2106,13 @@ export default class Buttons {
             const trace = total.traces[total.focusOn];
             if (buttons.show_distance) trace.showDistanceMarkers();
             else trace.hideDistanceMarkers();
+        });
+        this.show_bearing_markers.addEventListener('input', function (e) {
+            buttons.show_bearing = buttons.show_bearing_markers.checked;
+            if (total.hasFocus) return;
+            const trace = total.traces[total.focusOn];
+            if (buttons.show_bearing) trace.showBearingMarkers();
+            else trace.hideBearingMarkers();
         });
         buttons.elevation_input.checked = true;
         this.elevation_input.addEventListener('click', function (e) {

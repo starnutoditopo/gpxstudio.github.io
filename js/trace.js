@@ -240,6 +240,7 @@ export default class Trace {
         newTrace.updateTab();
         newTrace.showChevrons();
         newTrace.showDistanceMarkers();
+        newTrace.showBearingMarkers();
 
         const waypoints = this.getWaypoints();
         var wpts = [];
@@ -278,6 +279,7 @@ export default class Trace {
             this.showWaypoints();
             this.showChevrons();
             this.showDistanceMarkers();
+            this.showBearingMarkers();
         } else this.buttons.hideToUnhide();
         if (!this.buttons.embedding) this.tab.scrollIntoView();
     }
@@ -289,6 +291,7 @@ export default class Trace {
         this.hideWaypoints();
         this.hideChevrons();
         this.hideDistanceMarkers();
+        this.hideBearingMarkers();
         if (this.isEdited) this.stopEdit();
         if (this.drawing) this.stopDraw();
         if (this.renaming) this.rename();
@@ -333,6 +336,7 @@ export default class Trace {
             this.showWaypoints();
             this.showChevrons();
             this.showDistanceMarkers();
+            this.showBearingMarkers();
             if (this.isEdited) this.updateEditMarkers();
             else this.buttons.elev._addSliderCircles();
         } else {
@@ -341,6 +345,7 @@ export default class Trace {
             this.hideWaypoints();
             this.hideChevrons();
             this.hideDistanceMarkers();
+            this.hideBearingMarkers();
             this.removeEditMarkers();
             if (this.buttons.slider.isActive()) this.buttons.slider.reset();
             this.buttons.elev._removeSliderCircles();
@@ -518,6 +523,14 @@ export default class Trace {
 
     hideDistanceMarkers() {
         this.gpx.removeDistanceMarkers();
+    }
+
+    showBearingMarkers() {
+        alert("Show bearing markers!")
+    }
+
+    hideBearingMarkers() {
+        alert("Hide bearing markers!")
     }
 
     getBounds() {
@@ -1921,6 +1934,7 @@ export default class Trace {
             this.setStyle(true);
             this.showChevrons();
             this.showDistanceMarkers();
+            this.showBearingMarkers();
             pt.index = 0;
             segment = this.getSegments()[0];
         } else {
