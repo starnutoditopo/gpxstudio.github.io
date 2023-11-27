@@ -1,10 +1,11 @@
-L.BearingMarkers = L.LayerGroup.extend({
-	initialize: function (line, map, options, cumul) {
+/* L.BearingMarkers = L.LayerGroup.extend({
+	initialize: function (line, map, options) {
 		options = options || {};
 		var showAll = Math.min(map.getMaxZoom(), options.showAll || 13);
 		var cssClass = options.cssClass || 'bearing-marker';
-		var textFunction = options.textFunction || function(bearing, i) {
-			return "" + bearing;
+
+		var textFunction = options.textFunction || function(bearing, p1, p2, i) {
+			return "" + Math.round((bearing + 360) % 360) + "°";
 		};
 
 		var zoomLayers = {};
@@ -14,14 +15,15 @@ L.BearingMarkers = L.LayerGroup.extend({
 			coords = line.getLatLngs();
 		}
 		
+		console.log(line);
+		
 		for (var i = 1; i < coords.length; ++i) {
 			var p1 = coords[i - 1];
 			var p2 = coords[i];
 			var middle = L.latLngBounds(p1, p2).getCenter();
 
-			var bearing = 123;
-
-			var text = textFunction.call(this, bearing, i);
+			var bearing = L.GeometryUtil.bearing(p1, p2);
+			var text = textFunction.call(this, bearing, p1, p2, i);
     		var iconSize = [4+6*text.toString().length, 16];
 			var icon = L.divIcon({ className: cssClass, html: text, iconSize: iconSize });
 			var marker = L.marker(middle, { title: text, icon: icon, pane: 'overlayPane' });
@@ -57,7 +59,6 @@ L.BearingMarkers = L.LayerGroup.extend({
 		map.on('zoomend', updateMarkerVisibility);
 
 		this._layers = {}; // need to initialize before adding markers to this LayerGroup
-        this._cumul = coords.length;
 		updateMarkerVisibility();		
 	},
 
@@ -71,29 +72,28 @@ L.BearingMarkers = L.LayerGroup.extend({
 		return zoom;
 	},
 });
+ */
 
 L.Polyline.include({
 	_originalOnRemove1: L.Polyline.prototype.onRemove,
     _originalUpdatePath1: L.Polyline.prototype._updatePath,
 
-	addBearingMarkers: function (options, cumul) {
-		if (this._map) {
+	addBearingMarkers: function (options) {
+		/* if (this._map) {
             if (this._bearingMarkers) this.removeBearingMarkers();
-            this._bearingMarkers = new L.BearingMarkers(this, this._map, options, cumul);
+            this._bearingMarkers = new L.BearingMarkers(this, this._map, options);
 			this._map.addLayer(this._bearingMarkers);
             this._nPoints = this._latlngs.length;
-            return this._bearingMarkers._cumul;
-		}
-        return 0;
+		} */
 	},
 
 	removeBearingMarkers: function () {
-		if (this._map && this._bearingMarkers) {
+		/* if (this._map && this._bearingMarkers) {
 			this._map.removeLayer(this._bearingMarkers);
             this._bearingMarkers = null;
-		}
+		} */
 	},
-
+/* 
 	onRemove: function (map) {
 		this.removeBearingMarkers();
 		this._originalOnRemove1(map);
@@ -104,26 +104,31 @@ L.Polyline.include({
         if (this._bearingMarkers && this._latlngs.length != this._nPoints) {
             this._parent.addBearingMarkers();
         }
-    }
+    } */
 });
 
-L.LayerGroup.include({
-    addBearingMarkers: function(options) {
-        var cumul = 0;
-        for (var layer in this._layers) {
-            if (typeof this._layers[layer].addBearingMarkers === 'function') {
-                cumul = this._layers[layer].addBearingMarkers(options, cumul);
-                this._layers[layer]._parent = this;
-            }
-        }
-        return this;
-    },
-    removeBearingMarkers: function() {
-        for (var layer in this._layers) {
-            if (typeof this._layers[layer].removeBearingMarkers === 'function') {
-                this._layers[layer].removeBearingMarkers();
-            }
-        }
-        return this;
-    }
-});
+ L.LayerGroup.include({
+     addBearingMarkers: function(trace) {
+		alert("addBearingMarkers")
+		console.log(trace)
+		//console.log(trace.getWaypoints())
+		//console.log(trace.getPoints())
+		console.log(trace.getSegments())
+         /* for (var layer in this._layers) {
+             if (typeof this._layers[layer].addBearingMarkers === 'function') {
+                 this._layers[layer].addBearingMarkers(options);
+                 this._layers[layer]._parent = this;
+             }
+         } */
+         return this;
+     },
+     removeBearingMarkers: function() {
+		alert("removeBearingMarkers")
+         /* for (var layer in this._layers) {
+             if (typeof this._layers[layer].removeBearingMarkers === 'function') {
+                 this._layers[layer].removeBearingMarkers();
+             }
+         } */
+         return this;
+     }
+ });

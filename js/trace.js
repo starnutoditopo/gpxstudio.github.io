@@ -526,9 +526,8 @@ export default class Trace {
     }
 
     showBearingMarkers() {
-        //alert("Show bearing markers!")
         if (this.buttons.show_bearing) {
-            this.gpx.addBearingMarkers();
+            this.gpx.addBearingMarkers(this);
         }
     }
 
